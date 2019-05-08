@@ -40,7 +40,7 @@ public class ReactAppWebDriverTest extends MultiExJerseyTest {
 		System.setProperty("webdriver.chrome.driver", "/usr/local/bin/chromedriver");
 		driver.get(uri.toString());
 		Thread.sleep(5000);  // Let the user actually see something!
-		final WebElement latLongList = driver.findElement(By.xpath("//td[@data-testid='latLong0']"));
+		final WebElement latLongList = driver.findElement(By.xpath("//td[@data-testid='listItem0']"));
 		Assert.assertNotNull(latLongList);
 		Thread.sleep(5000);  // Let the user actually see something!
 	}
