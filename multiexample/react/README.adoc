@@ -1,0 +1,10 @@
+== Web client with react
+
+Rigget basert på https://shekhargulati.com/2019/01/13/running-tests-and-building-react-applications-with-gradle-build-tool/:
+
+- Åpnet terminalen og *cd*-et til hovedprosjektmappa
+- Laget et react-prosjekt med *npx create-react-app webclient*
+- *cd*-et til den nye *webclient*-mappa
+- Kjørte *gradle init --type basic --dsl groovy --project-name webclient*
+
+=== React

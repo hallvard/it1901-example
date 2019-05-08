@@ -1,0 +1,88 @@
+plugins {
+    id 'org.asciidoctor.jvm.convert' version '2.1.0'
+//    id 'org.asciidoctor.jvm.revealjs' version '2.1.0'
+}
+
+asciidoctor {
+	sourceDir 'asciidoc'
+    sources {
+        include '*.adoc'
+    }
+    outputDir file('build/docs/asciidoc')
+	resources {
+		from('asciidoc') {
+	    	include '**/*.png'
+	 	}
+		into '.'
+	}
+    logDocuments = true
+}
+
+asciidoctorj {
+    // useIntermediateWorkDir = true
+    diagramVersion '1.5.16'
+    attributes toc: 'left',
+    	'source-highlighter': 'highlight.js'
+
+    /*	
+	extensions {
+        block_macro (name: 'tweet') { parent, target, attributes ->
+            String content = """<div class="tweet" data-src="https://twitter.com/${target}/status/${attributes.get('1')}"></div>"""
+            config.remove 'content_model'
+            createBlock(parent, "pass", [content], [:], config)
+        }
+    }
+    */	
+}
+
+/*
+revealjs {
+	version '1.1.3' // why not '3.8.0' 
+	templateGitHub {
+   		organisation = 'hakimel'
+    	repository = 'reveal.js'
+    	tag = '3.8.0'
+  	}
+}
+
+revealjsPlugins {
+    github 'rajgoel', {
+        organisation = 'rajgoel'
+        repository = 'reveal.js-plugins'
+        branch = 'master'
+    }
+}
+
+asciidoctorRevealJs {
+
+    sourceDir 'revealjs'
+    sources {
+        include '*.adoc'
+    }
+    outputDir file('build/docs/revealjs')
+
+    attributes 'sourceDir': 'revealjs',
+    	'imagesDir': 'revealjs',
+        'icons':'font',
+        'iconfont-name': 'fontawesome-4.5.0'
+
+    revealjsOptions {
+        controls = true
+        slideNumber = true
+        progressBar = true
+        pushToHistory = true
+        overviewMode = true
+        touchMode = true
+        backgroundTransition = 'convex' //none , fade, slide, convex, concave, zoom
+        theme = 'sky' //'black', 'beige' , 'league', 'night', 'serif', 'simple', 'sky', 'solarized'
+    }
+
+	plugins 'rajgoel/chart/Chart.min.js',
+            'rajgoel/chart/csv2chart.js',
+            'rajgoel/chalkboard/chalkboard.js',
+            'rajgoel/embed-tweet/embed-tweet.js',
+            'denehyg/menu.js'
+
+}
+*/
+build.dependsOn 'asciidoctor'

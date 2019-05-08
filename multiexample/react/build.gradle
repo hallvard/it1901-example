@@ -1,0 +1,67 @@
+// based on https://dzone.com/articles/integrating-java-and-npm-builds-using-gradle
+
+plugins {
+	id 'base'
+    id "com.moowork.node" version "1.3.1"
+}
+ 
+node {
+    version = "10.15.0"
+    download = true
+}
+
+// npm tasks that standard tasks can depend on
+task npmBundle(type: NpmTask, dependsOn: npmInstall) {
+    args = ['run', 'build']
+	// when inputs change outputs will be generated
+    inputs.files fileTree("public")
+    inputs.files fileTree("src")
+    inputs.file 'package.json'
+    inputs.file 'package-lock.json'
+    outputs.dir 'build'
+}
+
+// depend on package task instead, see below
+// assemble.dependsOn(npmBundle)
+
+task npmTest(type: NpmTask) {
+	dependsOn assemble
+    environment = ['CI': 'true']
+    args = ['run', 'test']
+	// when inputs change (no) outputs will be generated
+    inputs.files fileTree('src')
+    inputs.file 'package.json'
+    inputs.file 'package-lock.json'
+}
+// makes the check task trigger the npmTest task
+check.dependsOn(npmTest)
+
+// package as jar, that other projects can depend on
+task packageNpm(type: Zip) {
+    dependsOn npm_run_build
+    baseName 'react'
+    extension 'jar'
+    destinationDir file("${projectDir}/build_packageNpm")
+    from('build') {
+        // optional path under which output will be visible in Java classpath, e.g. static resources path
+        into 'static' 
+    }
+}
+
+configurations {
+    npmResources
+}
+configurations.default.extendsFrom(configurations.npmResources)
+
+artifacts {
+    npmResources(packageNpm.archivePath) {
+        builtBy packageNpm
+        type "jar"
+    }
+}
+// makes the assemble task trigger the packageNpm task
+assemble.dependsOn packageNpm
+
+clean {
+    delete packageNpm.archivePath
+}

@@ -1,0 +1,38 @@
+== Multi-eksempel
+
+Dette eksemplet viser hvordan rigger et multi-prosjekt med gradle,
+med del-prosjekter for
+
+- domenelogikk (core)
+- brukergrensesnitt med JavaFX og FXML (fx)
+- React-basert web-klient (react)
+- web-server med JAX-RS og Jersey (jersey)
+
+=== Bygging med Gradle
+
+https://docs.gradle.org/current/userguide/userguide.html[Gradle] er et såkalt byggesystem, som automatiserer oppgaver knyttet til utvikling og kvalitetssikring av programvare, f.eks.
+kompilering, kjørings av enhetstester og integrasjonstester, konvertering av dokumentasjon til HTML, pakking som kjørbart program, osv.
+Det finnes teknisk sett ikke grenser for hva et byggesystem kan gjøre, generelt handler det om å automatisere bort alt praktisk fikkel,
+som ellers hindrer en å jobbe effektivt.
+
+Det finnes flere byggesystem, de viktigste i Java-verdenen er https://maven.apache.org[Maven] og Gradle, mens Javascript-verdenen har sine, bl.a. https://docs.npmjs.com[npm].
+I dette prosjektet har vi valgt å bruke Gradle, fordi det er enklere å skrive og lese oppsettet og trigge kjøring, mer fleksiblet og
+det vi ønsker å automatisere i akkurat dette prosjektet er innafor det Gradle håndterer godt. For andre Java-prosjekter kan Maven være et bedre alternativ.
+Siden ett av prosjektet bruker Javascript og npm, så
+bruker vi et eget Gradle-tillegg som bygger bro til npm. 
+
+Gradle er bygget rundt tre sentrale elementer:
+
+- oppgaver (tasks) - det som automatiseres, f.eks. kompilering, kjøring av tester, osv.
+- prosjekter - enhetene som oppgaver utføres innenfor
+- tillegg (plugins) - angir hvilke oppgaver som hører til et visst type prosjekt.
+
+Oppsettet for bygging består bl.a. i å angi hvilke (del)-prosjekter som inngår i hovedprosjektet,
+hvilke avhengigheter det er til eksterne moduler og mellom prosjektene, hvilke tillegg som bør aktiveres for disse prosjektene
+(basert på hva slags type prosjekt det er) og hvordan hver type oppgave skal konfigureres.
+
+NOTE: Det litt spesielle med Gradle er at filene for å sette opp et Gradle-bygg egentlig er https://docs.gradle.org/current/userguide/groovy_build_script_primer.html[kode skrevet i det Java-lignende språket Groovy].
+Koden brukes primært til konfigurasjon, altså bygge opp beskrivelsen av oppgavene,  prosjektene og tilleggene og. API-et er utformet slik at koden skal se deklarativ ut.
+En kan flette inn vanlig kode også, hvis en skjønner litt om hvordan API-et virker. Dette gir enorm fleksibilitet, men kan også gjøre filene vanskelige å forstå.
+
+De to viktigste filene for å sette opp et Gradle-bygg er *settings.gradle* og *build.gradle*.

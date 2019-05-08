@@ -1,0 +1,24 @@
+plugins {
+	id 'application'
+    id 'org.openjfx.javafxplugin' version '0.0.7'
+}
+
+javafx {
+	version = '11.0.2'
+    modules = [ 'javafx.controls', 'javafx.fxml' ]
+}
+
+mainClassName = 'jerseyex.ui.FxApp' // application plugin
+
+ext {
+	testfxVersion = '4.0.15-alpha'
+}
+
+dependencies {
+    implementation project(':core')
+
+    testImplementation 'junit:junit:4.12'
+    testImplementation "org.testfx:testfx-core:$testfxVersion"
+    testImplementation "org.testfx:testfx-junit:$testfxVersion"
+	// testImplementation 'org.testfx:openjfx-monocle:8u76-b04'
+}
