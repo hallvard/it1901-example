@@ -31,17 +31,7 @@ public class FxAppController {
 
 	private MapItemsControl<MapNode> markersParent;
 	private MapMarker marker = null;
-	private final DraggableMarkerController draggableMarkerController = new DraggableMarkerController() {
-		@Override
-		protected void handleDragged(final Node node, final double dx, final double dy) {
-			final MapProjection projection = mapView.getProjection();
-			final Point2D point = projection.locationToViewportPoint(marker.getLocation());
-			final Point2D newPoint = point.add(dx, dy);
-			final Location newLocation = projection.viewportPointToLocation(newPoint);
-			latLongs.setLatLong(locationListView.getSelectionModel().getSelectedIndex(), new LatLong(newLocation.getLatitude(), newLocation.getLongitude()));
-			updateMapMarker(false);
-		}
-	};
+	private DraggableMarkerController draggableMarkerController;
 
 	@FXML
 	private Slider zoomSlider;
@@ -59,8 +49,17 @@ public class FxAppController {
 		if (latLongs.getLatLongCount() > 0) {
 			locationListView.getSelectionModel().select(0);
 		}
+		draggableMarkerController = new DraggableMarkerController(this::handleMarkerDragged);
 	}
 
+	private void handleMarkerDragged(final Node node, final double dx, final double dy) {
+		final MapProjection projection = mapView.getProjection();
+		final Point2D point = projection.locationToViewportPoint(marker.getLocation());
+		final Point2D newPoint = point.add(dx, dy);
+		final Location newLocation = projection.viewportPointToLocation(newPoint);
+		latLongs.setLatLong(locationListView.getSelectionModel().getSelectedIndex(), new LatLong(newLocation.getLatitude(), newLocation.getLongitude()));
+		updateMapMarker(false);
+	}
 	private void updateMapMarker(final boolean centerOnMarker) {
 		final int num = locationListView.getSelectionModel().getSelectedIndex();
 		if (num < 0 || num >= latLongs.getLatLongCount()) {

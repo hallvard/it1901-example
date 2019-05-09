@@ -5,7 +5,20 @@ import javafx.geometry.Point2D;
 import javafx.scene.Node;
 import javafx.scene.input.MouseEvent;
 
-public abstract class DraggableMarkerController {
+public class DraggableMarkerController {
+
+	private NodeDraggedHandler nodeDraggedHandler;
+
+	public void setNodeDraggedHandler(final NodeDraggedHandler nodeDraggedHandler) {
+		this.nodeDraggedHandler = nodeDraggedHandler;
+	}
+
+	public DraggableMarkerController() {
+	}
+
+	public DraggableMarkerController(final NodeDraggedHandler nodeDraggedHandler) {
+		setNodeDraggedHandler(nodeDraggedHandler);
+	}
 
 	private Node currentNode = null;
 	private Point2D startPoint = null;
@@ -52,9 +65,13 @@ public abstract class DraggableMarkerController {
 			currentNode.setTranslateY(startTranslate.getY());
 			final Node node = currentNode;
 			currentNode = null;
-			handleDragged(node, dx, dy);
+			if (nodeDraggedHandler != null) {
+				nodeDraggedHandler.nodeDragged(node, dx, dy);
+			}
 		}
 	}
 
-	protected abstract void handleDragged(Node currentNode2, double dx, double dy);
+	public interface NodeDraggedHandler {
+		public void nodeDragged(Node currentNode2, double dx, double dy);
+	}
 }
