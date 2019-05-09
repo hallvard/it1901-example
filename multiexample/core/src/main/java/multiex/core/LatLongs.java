@@ -9,6 +9,13 @@ public class LatLongs implements Iterable<LatLong> {
 
 	final List<LatLong> latLongs = new ArrayList<>();
 
+	public LatLongs() {
+	}
+
+	public LatLongs(final double... latLongsArray) {
+		addLatLongs(latLongsArray);
+	}
+
 	public LatLongs(final LatLong... latLongs) {
 		addLatLongs(latLongs);
 	}
@@ -48,6 +55,14 @@ public class LatLongs implements Iterable<LatLong> {
 
 	public int addLatLongs(final LatLong... latLongs) {
 		return addLatLongs(List.of(latLongs));
+	}
+
+	public int addLatLongs(final double... latLongsArray) {
+		final Collection<LatLong> latLongs = new ArrayList<>(latLongsArray.length / 2);
+		for (int i = 0; i < latLongsArray.length; i += 2) {
+			latLongs.add(new LatLong(latLongsArray[i], latLongsArray[i + 1]));
+		}
+		return addLatLongs(latLongs);
 	}
 
 	public LatLong removeLatLong(final int num) {

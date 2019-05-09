@@ -9,7 +9,6 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-import multiex.ui.FxAppController;
 
 public class FxAppTest extends ApplicationTest {
 
@@ -42,7 +41,8 @@ public class FxAppTest extends ApplicationTest {
 
 	@Test
 	public void testRootPane() {
-		Assert.assertTrue(lookup("#rootPane").query() instanceof Parent);
+		Assert.assertNotNull(lookup("#locationListView").query());
+		Assert.assertNotNull(lookup("#mapView").query());
 	}
 
 	@Test

@@ -17,7 +17,7 @@ som ellers hindrer en å jobbe effektivt.
 
 Det finnes flere byggesystem, de viktigste i Java-verdenen er https://maven.apache.org[Maven] og Gradle, mens Javascript-verdenen har sine, bl.a. https://docs.npmjs.com[npm].
 I dette prosjektet har vi valgt å bruke Gradle, fordi det er enklere å skrive og lese oppsettet og trigge kjøring, mer fleksiblet og
-det vi ønsker å automatisere i akkurat dette prosjektet er innafor det Gradle håndterer godt. For andre Java-prosjekter kan Maven være et bedre alternativ.
+det vi ønsker å automatisere i akkurat dette prosjektet er innafor det Gradle håndterer godt. For andre Java-prosjekter https://phauer.com/2018/moving-back-from-gradle-to-maven/[kan Maven være et bedre alternativ].
 Siden ett av prosjektet bruker Javascript og npm, så
 bruker vi et eget Gradle-tillegg som bygger bro til npm. 
 

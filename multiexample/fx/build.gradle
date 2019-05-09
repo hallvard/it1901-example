@@ -3,19 +3,25 @@ plugins {
     id 'org.openjfx.javafxplugin' version '0.0.7'
 }
 
+// javafx specific way of specifying dependencies
 javafx {
 	version = '11.0.2'
     modules = [ 'javafx.controls', 'javafx.fxml' ]
 }
 
-mainClassName = 'jerseyex.ui.FxApp' // application plugin
+mainClassName = 'multiex.ui.FxApp' // application plugin
 
 ext {
 	testfxVersion = '4.0.15-alpha'
 }
 
+repositories{
+    mavenLocal()
+}
+
 dependencies {
     implementation project(':core')
+    compile 'fischer.clemens:FxMapControl:1.0'
 
     testImplementation 'junit:junit:4.12'
     testImplementation "org.testfx:testfx-core:$testfxVersion"

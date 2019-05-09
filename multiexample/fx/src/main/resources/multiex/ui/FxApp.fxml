@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.Slider?>
+<?import fxmapcontrol.MapBase?>
+
+<BorderPane xmlns:fx="http://javafx.com/fxml"
+            fx:controller="multiex.ui.FxAppController"
+            fx:id="rootPane"
+            prefHeight="750" prefWidth="1000">
+    <left>
+		<ListView fx:id="locationListView"/>
+	</left>
+	<center>
+		<VBox>
+			<MapBase fx:id="mapView"/>
+			<Slider fx:id="zoomSlider" min="1" max="20" value="9"/>
+		</VBox>
+	</center>
+</BorderPane>
