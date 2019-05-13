@@ -43,13 +43,13 @@ public class FxAppController {
 		zoomSlider.setValue(8);
 		markersParent = new MapItemsControl<MapNode>();
 		mapView.getChildren().add(markersParent);
+		draggableMarkerController = new DraggableMarkerController(this::handleMarkerDragged);
 
 		locationListView.getSelectionModel().selectedIndexProperty().addListener((prop, oldValue, newValue) -> updateMapMarker(true));
 		updateLocationViewList(0);
 		if (latLongs.getLatLongCount() > 0) {
 			locationListView.getSelectionModel().select(0);
 		}
-		draggableMarkerController = new DraggableMarkerController(this::handleMarkerDragged);
 	}
 
 	private void handleMarkerDragged(final Node node, final double dx, final double dy) {

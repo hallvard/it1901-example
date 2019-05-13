@@ -8,7 +8,6 @@
 
 <BorderPane xmlns:fx="http://javafx.com/fxml"
             fx:controller="multiex.ui.FxAppController"
-            fx:id="rootPane"
             prefHeight="750" prefWidth="1000">
     <left>
 		<ListView fx:id="locationListView"/>

@@ -7,6 +7,8 @@ plugins {
 javafx {
 	version = '11.0.2'
     modules = [ 'javafx.controls', 'javafx.fxml' ]
+    // run with --debug-jvm flag and
+    // launch debugger using Remove Java Application debug launch configuration
 }
 
 mainClassName = 'multiex.ui.FxApp' // application plugin
