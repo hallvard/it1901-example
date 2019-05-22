@@ -8,7 +8,7 @@ import org.glassfish.grizzly.http.server.HttpServer;
 import org.glassfish.jersey.grizzly2.httpserver.GrizzlyHttpServerFactory;
 import org.glassfish.jersey.server.ResourceConfig;
 
-public class LatLongNettyApp {
+public class LatLongGrizzlyApp {
 
 	private static final URI BASE_URI = URI.create("http://localhost:8080/");
 
@@ -24,7 +24,7 @@ public class LatLongNettyApp {
 			}));
 			Thread.currentThread().join();
 		} catch (final InterruptedException ex) {
-			Logger.getLogger(LatLongNettyApp.class.getName()).log(Level.SEVERE, null, ex);
+			Logger.getLogger(LatLongGrizzlyApp.class.getName()).log(Level.SEVERE, null, ex);
 		}
 	}
 }

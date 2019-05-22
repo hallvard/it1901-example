@@ -1,0 +1,30 @@
+plugins {
+	id 'java-library'
+}
+
+ext {
+    slf4jVersion = '1.7.25'
+    jerseyVersion = '2.28'
+}
+
+dependencies {
+	implementation project(':core')
+
+    compile "org.slf4j:slf4j-api:$slf4jVersion"
+    compile "org.slf4j:slf4j-simple:$slf4jVersion"
+
+    compile "com.fasterxml.jackson.core:jackson-core:${depVersions.jackson}"
+    compile "com.fasterxml.jackson.core:jackson-databind:${depVersions.jackson}"
+    compile "com.fasterxml.jackson.core:jackson-annotations:${depVersions.jackson}"
+
+    compile "org.glassfish.jersey.core:jersey-server:$jerseyVersion"
+    compile "org.glassfish.jersey.media:jersey-media-json-jackson:$jerseyVersion"
+    compile "org.glassfish.jersey.inject:jersey-hk2:$jerseyVersion"
+
+	testImplementation 'junit:junit:4.12'
+
+	testRuntime 'javax.activation:activation:1.1.1'
+    testRuntime 'javax.xml.bind:jaxb-api:2.3.0'
+    testRuntime 'com.sun.xml.bind:jaxb-core:2.3.0'
+    testRuntime 'com.sun.xml.bind:jaxb-impl:2.3.0'
+}
