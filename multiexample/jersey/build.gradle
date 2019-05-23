@@ -7,7 +7,7 @@ ext {
     jerseyVersion = '2.28'
 }
 
-mainClassName = 'jerseyex.web.LatLongGrizzlyApp'
+mainClassName = 'multiex.jersey.LatLongGrizzlyApp'
 
 dependencies {
 	implementation project(':core')
@@ -38,6 +38,6 @@ dependencies {
 
 test {
     testLogging {
-   		// showStandardStreams = true
+   		showStandardStreams = true
     }
 }

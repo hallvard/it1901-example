@@ -9,6 +9,11 @@ public class ReactAppTest extends MultiExJerseyTest {
 
 	private static final String REACT_APP_PATH = ReactApp.REACT_APP_PATH;
 
+	@Override
+	protected boolean shouldLog() {
+		return true;
+	}
+
 	@Test
 	public void testGet() throws Exception {
 		final Response response = target(REACT_APP_PATH).path("index.html")

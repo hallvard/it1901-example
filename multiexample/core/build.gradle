@@ -2,6 +2,11 @@ plugins {
     id 'java-library'
 }
 
+compileJava   {
+  sourceCompatibility = '1.8'
+  targetCompatibility = '1.8'
+}
+
 dependencies {
     implementation "com.fasterxml.jackson.core:jackson-core:${depVersions.jackson}"
     implementation "com.fasterxml.jackson.core:jackson-databind:${depVersions.jackson}"

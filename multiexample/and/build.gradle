@@ -1,0 +1,76 @@
+// based on https://developer.android.com/studio/build/index.html
+
+buildscript {
+
+    repositories {
+        // needed for android plugin
+        google()
+
+        // needed for greensopinion plugin
+        maven {
+          url "https://plugins.gradle.org/m2/"
+        }
+    }
+
+    dependencies {
+        classpath 'com.android.tools.build:gradle:3.4.1'
+	    classpath "gradle.plugin.com.greensopinion.gradle-android-eclipse:gradle-android-eclipse:1.1"
+    }
+}
+
+repositories {
+    // needed for android apps
+    google()
+    jcenter()
+}
+
+
+apply plugin: 'com.android.application'
+
+android {
+
+	compileOptions {
+	    sourceCompatibility JavaVersion.VERSION_1_8
+	    targetCompatibility JavaVersion.VERSION_1_8
+	}
+
+    compileSdkVersion 28
+    // supportLibVersion = "28.0.0"
+    buildToolsVersion "28.0.3"
+    
+	defaultConfig {
+	
+	    applicationId 'multiex.and'
+	
+	    minSdkVersion 15
+	    targetSdkVersion 28
+	
+	    versionCode 1
+	    versionName "1.0"
+	}
+	
+	buildTypes {
+	
+		release {
+	        minifyEnabled true // Enables code shrinking for the release build type.
+	        proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+	    }
+	}
+}
+
+dependencies {
+    implementation project(":core")
+	implementation 'com.android.support:support-v4:28.0.0'
+    implementation 'com.android.support:appcompat-v7:28.0.0'
+    // implementation fileTree(dir: 'libs', include: ['*.jar'])
+}
+
+apply plugin: 'com.greensopinion.gradle-android-eclipse'
+apply plugin: 'eclipse'
+
+eclipse {
+	classpath {
+    	plusConfigurations += [ configurations.compile, configurations.testCompile ]
+    	downloadSources = true
+  	}
+}

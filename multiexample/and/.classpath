@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="src" output="bin" path="src/main/java"/>
+	<classpathentry kind="src" output="bin" path="build/generated/source/buildConfig/debug"/>
+	<classpathentry kind="src" output="bin" path="build/generated/source/aidl/debug"/>
+	<classpathentry kind="src" path="build/generated/not_namespaced_r_class_sources/debug/processDebugResources/r"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-12/">
+		<attributes>
+			<attribute name="module" value="true"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="con" path="org.eclipse.buildship.core.gradleclasspathcontainer"/>
+	<classpathentry kind="var" path="ANDROID_HOME/platforms/android-28/android.jar" sourcepath="ANDROID_HOME/sources/android-28"/>
+	<classpathentry kind="output" path="bin/default"/>
+</classpath>
