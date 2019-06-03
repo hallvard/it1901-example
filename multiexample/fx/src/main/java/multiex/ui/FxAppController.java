@@ -17,10 +17,12 @@ import multiex.core.LatLongs;
 
 public class FxAppController {
 
-	private final LatLongs latLongs;
+	private LatLongs latLongs;
 
-	public FxAppController() {
-		latLongs = new LatLongs(63.1, 11.2, 63.2, 11.0);
+	// to make it testable
+	public void setLatLongs(final LatLongs latLongs) {
+		this.latLongs = latLongs;
+		updateLocationViewList(0);
 	}
 
 	@FXML
@@ -37,19 +39,16 @@ public class FxAppController {
 	private Slider zoomSlider;
 
 	@FXML
-	public void initialize() {
+	private void initialize() {
+		// map stuff
 		mapView.getChildren().add(MapTileLayer.getOpenStreetMapLayer());
-		zoomSlider.valueProperty().addListener((prop, oldValue, newValue) -> updateZoomLevel());
+		zoomSlider.valueProperty().addListener((prop, oldValue, newValue) -> mapView.setZoomLevel(zoomSlider.getValue()));
 		zoomSlider.setValue(8);
 		markersParent = new MapItemsControl<MapNode>();
 		mapView.getChildren().add(markersParent);
 		draggableMarkerController = new DraggableMarkerController(this::handleMarkerDragged);
-
+		// the location list
 		locationListView.getSelectionModel().selectedIndexProperty().addListener((prop, oldValue, newValue) -> updateMapMarker(true));
-		updateLocationViewList(0);
-		if (latLongs.getLatLongCount() > 0) {
-			locationListView.getSelectionModel().select(0);
-		}
 	}
 
 	private void handleMarkerDragged(final Node node, final double dx, final double dy) {
@@ -57,9 +56,14 @@ public class FxAppController {
 		final Point2D point = projection.locationToViewportPoint(marker.getLocation());
 		final Point2D newPoint = point.add(dx, dy);
 		final Location newLocation = projection.viewportPointToLocation(newPoint);
-		latLongs.setLatLong(locationListView.getSelectionModel().getSelectedIndex(), new LatLong(newLocation.getLatitude(), newLocation.getLongitude()));
-		updateMapMarker(false);
+		latLongs.setLatLong(locationListView.getSelectionModel().getSelectedIndex(), location2LatLong(newLocation));
+		updateLocationViewListSelection(false);
 	}
+
+	private LatLong location2LatLong(final Location newLocation) {
+		return new LatLong(newLocation.getLatitude(), newLocation.getLongitude());
+	}
+
 	private void updateMapMarker(final boolean centerOnMarker) {
 		final int num = locationListView.getSelectionModel().getSelectedIndex();
 		if (num < 0 || num >= latLongs.getLatLongCount()) {
@@ -81,18 +85,42 @@ public class FxAppController {
 		}
 	}
 
-	private void updateZoomLevel() {
-		mapView.setZoomLevel(zoomSlider.getValue());
+	@FXML
+	private void handleAddLocation() {
+		final Location center = mapView.getCenter();
+		final int pos = latLongs.addLatLong(location2LatLong(center));
+		updateLocationViewList(pos);
 	}
 
-	private void updateLocationViewList(final int selectedIndex) {
+	private void updateLocationViewListSelection(final Boolean updateMapMarker) {
+		final int selectedIndex = locationListView.getSelectionModel().getSelectedIndex();
+		updateLocationViewListItem(selectedIndex);
+		if (updateMapMarker != null) {
+			updateMapMarker(updateMapMarker);
+		}
+	}
+
+	private void updateLocationViewListItem(final int index) {
+		locationListView.getItems().set(index, this.latLongs.getLatLong(index));
+	}
+
+	private void updateLocationViewList(int selectedIndex) {
 		final LatLong[] latLongs = new LatLong[this.latLongs.getLatLongCount()];
 		for (int i = 0; i < latLongs.length; i++) {
 			latLongs[i] = this.latLongs.getLatLong(i);
 		}
+		final int oldSelectionIndex = locationListView.getSelectionModel().getSelectedIndex();
 		locationListView.setItems(FXCollections.observableArrayList(latLongs));
-		if (selectedIndex >= 0 && selectedIndex < latLongs.length) {
+		if (selectedIndex < 0 || selectedIndex >= latLongs.length) {
+			selectedIndex = oldSelectionIndex;
+		}
+		if (selectedIndex >= 0 && selectedIndex < this.latLongs.getLatLongCount()) {
 			locationListView.getSelectionModel().select(selectedIndex);
 		}
+	}
+
+	@FXML
+	private void handleLoad() {
+
 	}
 }

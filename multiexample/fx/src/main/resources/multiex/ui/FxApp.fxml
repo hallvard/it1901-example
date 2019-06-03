@@ -5,12 +5,26 @@
 <?import javafx.scene.control.ListView?>
 <?import javafx.scene.control.Slider?>
 <?import fxmapcontrol.MapBase?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.Label?>
 
 <BorderPane xmlns:fx="http://javafx.com/fxml"
             fx:controller="multiex.ui.FxAppController"
             prefHeight="750" prefWidth="1000">
+    <top>
+		<HBox>
+			<Label text="Source: "/>
+			<TextField promptText="Enter location source here"/>
+			<Button text="Load" onAction="#handleLoad"/>
+		</HBox>
+    </top>
     <left>
-		<ListView fx:id="locationListView"/>
+		<VBox fillWidth="true">
+			<ListView fx:id="locationListView"/>
+			<Button text="Add location" onAction="#handleAddLocation"/>
+		</VBox>
 	</left>
 	<center>
 		<VBox>

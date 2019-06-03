@@ -1,7 +1,22 @@
+// https://docs.gluonhq.com/client/#_the_gluon_client_plugin_for_gradle
+buildscript {
+    repositories {
+        maven {
+            url "https://nexus.gluonhq.com/nexus/content/repositories/releases"
+        }
+    }
+    dependencies {
+        classpath 'com.gluonhq:client-gradle-plugin:0.0.1'
+    }
+}
+
 plugins {
 	id 'application'
     id 'org.openjfx.javafxplugin' version '0.0.7'
 }
+
+// https://docs.gluonhq.com/client/#_the_gluon_client_plugin_for_gradle
+apply plugin: 'com.gluonhq.client-gradle-plugin'
 
 // javafx specific way of specifying dependencies
 javafx {
@@ -15,6 +30,7 @@ mainClassName = 'multiex.ui.FxApp' // application plugin
 
 ext {
 	testfxVersion = '4.0.15-alpha'
+	mockitoVersion = '2.28.2'
 }
 
 repositories{
@@ -29,4 +45,6 @@ dependencies {
     testImplementation "org.testfx:testfx-core:$testfxVersion"
     testImplementation "org.testfx:testfx-junit:$testfxVersion"
 	// testImplementation 'org.testfx:openjfx-monocle:8u76-b04'
+	
+	testImplementation "org.mockito:mockito-core:$mockitoVersion"
 }
