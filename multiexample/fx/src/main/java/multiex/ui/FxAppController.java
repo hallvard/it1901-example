@@ -5,7 +5,6 @@ import fxmapcontrol.MapBase;
 import fxmapcontrol.MapItemsControl;
 import fxmapcontrol.MapNode;
 import fxmapcontrol.MapProjection;
-import fxmapcontrol.MapTileLayer;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.geometry.Point2D;
@@ -33,7 +32,8 @@ public class FxAppController {
 
 	private MapItemsControl<MapNode> markersParent;
 	private MapMarker marker = null;
-	private DraggableMarkerController draggableMarkerController;
+	private DraggableNodeController draggableMapController = null;
+	private DraggableNodeController draggableMarkerController = null;
 
 	@FXML
 	private Slider zoomSlider;
@@ -41,21 +41,30 @@ public class FxAppController {
 	@FXML
 	private void initialize() {
 		// map stuff
-		mapView.getChildren().add(MapTileLayer.getOpenStreetMapLayer());
+		// mapView.getChildren().add(MapTileLayer.getOpenStreetMapLayer());
 		zoomSlider.valueProperty().addListener((prop, oldValue, newValue) -> mapView.setZoomLevel(zoomSlider.getValue()));
 		zoomSlider.setValue(8);
 		markersParent = new MapItemsControl<MapNode>();
 		mapView.getChildren().add(markersParent);
-		draggableMarkerController = new DraggableMarkerController(this::handleMarkerDragged);
+		draggableMapController = new DraggableNodeController(this::handleMapDragged);
+		draggableMapController.setImmediate(true);
+		draggableMapController.attach(mapView);
+		draggableMarkerController = new DraggableNodeController(this::handleMarkerDragged);
 		// the location list
 		locationListView.getSelectionModel().selectedIndexProperty().addListener((prop, oldValue, newValue) -> updateMapMarker(true));
+	}
+
+	private void handleMapDragged(final Node node, final double dx, final double dy) {
+		final MapProjection projection = mapView.getProjection();
+		final Point2D point = projection.locationToViewportPoint(mapView.getCenter());
+		final Location newCenter = projection.viewportPointToLocation(point.add(-dx, -dy));
+		mapView.setCenter(newCenter);
 	}
 
 	private void handleMarkerDragged(final Node node, final double dx, final double dy) {
 		final MapProjection projection = mapView.getProjection();
 		final Point2D point = projection.locationToViewportPoint(marker.getLocation());
-		final Point2D newPoint = point.add(dx, dy);
-		final Location newLocation = projection.viewportPointToLocation(newPoint);
+		final Location newLocation = projection.viewportPointToLocation(point.add(dx, dy));
 		latLongs.setLatLong(locationListView.getSelectionModel().getSelectedIndex(), location2LatLong(newLocation));
 		updateLocationViewListSelection(false);
 	}
@@ -68,14 +77,18 @@ public class FxAppController {
 		final int num = locationListView.getSelectionModel().getSelectedIndex();
 		if (num < 0 || num >= latLongs.getLatLongCount()) {
 			markersParent.getItems().clear();
-			draggableMarkerController.detach(marker);
+			if (draggableMarkerController != null) {
+				draggableMarkerController.detach(marker);
+			}
 			marker = null;
 		} else {
 			final LatLong latLong = latLongs.getLatLong(num);
 			if (marker == null) {
 				marker = new MapMarker(latLong);
 				markersParent.getItems().add(marker);
-				draggableMarkerController.attach(marker);
+				if (draggableMarkerController != null) {
+					draggableMarkerController.attach(marker);
+				}
 			} else {
 				marker.setLocation(latLong);
 			}

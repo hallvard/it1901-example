@@ -5,7 +5,14 @@ import javafx.geometry.Point2D;
 import javafx.scene.Node;
 import javafx.scene.input.MouseEvent;
 
-public class DraggableMarkerController {
+public class DraggableNodeController {
+
+	public DraggableNodeController() {
+	}
+
+	public DraggableNodeController(final NodeDraggedHandler nodeDraggedHandler) {
+		setNodeDraggedHandler(nodeDraggedHandler);
+	}
 
 	private NodeDraggedHandler nodeDraggedHandler;
 
@@ -13,11 +20,10 @@ public class DraggableMarkerController {
 		this.nodeDraggedHandler = nodeDraggedHandler;
 	}
 
-	public DraggableMarkerController() {
-	}
+	private boolean immediate = false;
 
-	public DraggableMarkerController(final NodeDraggedHandler nodeDraggedHandler) {
-		setNodeDraggedHandler(nodeDraggedHandler);
+	public void setImmediate(final boolean immediate) {
+		this.immediate = immediate;
 	}
 
 	private Node currentNode = null;
@@ -52,6 +58,15 @@ public class DraggableMarkerController {
 		if (currentNode != null && currentNode == mouseEvent.getSource()) {
 			final double dx = mouseEvent.getSceneX() - startPoint.getX();
 			final double dy = mouseEvent.getSceneY() - startPoint.getY();
+			updateNode(dx, dy);
+		}
+	}
+
+	protected void updateNode(final double dx, final double dy) {
+		if (immediate && nodeDraggedHandler != null) {
+			nodeDraggedHandler.nodeDragged(currentNode, dx, dy);
+			startPoint = startPoint.add(dx, dy);
+		} else {
 			currentNode.setTranslateX(startTranslate.getX() + dx);
 			currentNode.setTranslateY(startTranslate.getY() + dy);
 		}
@@ -61,8 +76,10 @@ public class DraggableMarkerController {
 		if (currentNode != null && currentNode == mouseEvent.getSource()) {
 			final double dx = mouseEvent.getSceneX() - startPoint.getX();
 			final double dy = mouseEvent.getSceneY() - startPoint.getY();
-			currentNode.setTranslateX(startTranslate.getX());
-			currentNode.setTranslateY(startTranslate.getY());
+			if (! immediate) {
+				currentNode.setTranslateX(startTranslate.getX());
+				currentNode.setTranslateY(startTranslate.getY());
+			}
 			final Node node = currentNode;
 			currentNode = null;
 			if (nodeDraggedHandler != null) {

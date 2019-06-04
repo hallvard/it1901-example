@@ -9,6 +9,8 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.control.Label?>
+<?import fxmapcontrol.MapTileLayer?>
+<?import fxmapcontrol.TileSource?>
 
 <BorderPane xmlns:fx="http://javafx.com/fxml"
             fx:controller="multiex.ui.FxAppController"
@@ -28,7 +30,18 @@
 	</left>
 	<center>
 		<VBox>
-			<MapBase fx:id="mapView"/>
+			<MapBase fx:id="mapView">
+				<MapTileLayer name="OpenStreetMap" minZoomLevel="0" maxZoomLevel="17">
+					<tileSource>
+						<TileSource urlFormat="http://a.tile.openstreetmap.fr/hot/{z}/{x}/{y}.png"/>
+					<!--
+						<TileSource urlFormat="https://{c}.tile.openstreetmap.org/{z}/{x}/{y}.png"/>
+						<TileSource urlFormat="http://opencache.statkart.no/gatekeeper/gk/gk.open_gmaps?layers=topo2&amp;zoom={z}&amp;x={x}&amp;y={y}"/>
+						<TileSource urlFormat="http://mt1.google.com/vt/lyrs=m@129&amp;hl=en&amp;s=Galileo&amp;z={z}&amp;x={x}&amp;y={y}"/>
+					-->
+					</tileSource>
+				</MapTileLayer>
+			</MapBase>
 			<Slider fx:id="zoomSlider" min="1" max="20" value="9"/>
 		</VBox>
 	</center>

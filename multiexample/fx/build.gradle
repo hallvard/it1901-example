@@ -28,12 +28,34 @@ javafx {
 
 mainClassName = 'multiex.ui.FxApp' // application plugin
 
+gluonClient {
+//    target = "host"
+//    backend = "lir"
+//    graalLibsVersion = "20.0.0-beta.01"
+//    graalLibsPath = ""
+//    javaStaticSdkVersion = "12-ea+2"
+//    javafxStaticSdkVersion = "12-ea+1"
+//    bundlesList = []
+//    resourcesList = []
+    reflectionList = [
+    	'javafx.fxml.FXMLLoader', 'multiex.ui.FxAppController',
+    	'javafx.scene.layout.BorderPane', 'javafx.scene.layout.VBox', 'javafx.scene.layout.HBox',
+    	'javafx.scene.control.ListView', 'javafx.scene.control.Slider',
+    	'javafx.scene.control.Button', 'javafx.scene.control.TextField', 'javafx.scene.control.Label',
+    	'fxmapcontrol.MapTileLayer', 'fxmapcontrol.TileSource'
+    ]
+//    jniList = []
+//    delayInitList = []
+//    releaseSymbolsList = []
+}
+
 ext {
 	testfxVersion = '4.0.15-alpha'
 	mockitoVersion = '2.28.2'
 }
 
 repositories{
+	// to get FxMapControl, which must be built using 'mvn install'
     mavenLocal()
 }
 
