@@ -51,6 +51,7 @@ public class DraggableNodeController {
 			currentNode = (Node) mouseEvent.getSource();
 			startPoint = new Point2D(mouseEvent.getSceneX(), mouseEvent.getSceneY());
 			startTranslate = new Point2D(currentNode.getTranslateX(), currentNode.getTranslateY());
+			mouseEvent.consume();
 		}
 	}
 
