@@ -8,9 +8,7 @@ compileJava   {
 }
 
 dependencies {
-    implementation "com.fasterxml.jackson.core:jackson-core:${depVersions.jackson}"
-    implementation "com.fasterxml.jackson.core:jackson-databind:${depVersions.jackson}"
-    implementation "com.fasterxml.jackson.core:jackson-annotations:${depVersions.jackson}"
+    compile "com.fasterxml.jackson.core:jackson-databind:${depVersions.jackson}"
 
     testImplementation 'junit:junit:4.12'
 }

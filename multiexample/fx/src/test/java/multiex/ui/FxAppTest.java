@@ -1,5 +1,6 @@
 package multiex.ui;
 
+import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -14,7 +15,6 @@ import org.testfx.framework.junit.ApplicationTest;
 import fxmapcontrol.Location;
 import fxmapcontrol.MapBase;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -58,13 +58,15 @@ public class FxAppTest extends ApplicationTest {
 
 	private void setUpLatLongs() {
 		// test data
-		latLongList = List.of(new LatLong(63.1, 11.2), new LatLong(63.2, 11.0));
+		latLongList = new ArrayList<>(List.of(new LatLong(63.1, 11.2), new LatLong(63.2, 11.0)));
 		// "mocked" (faked) LatLongs object with very specific and limited behavior
 		latLongs = mock(LatLongs.class);
-		when(latLongs.getLatLong(0)).thenReturn(latLongList.get(0)); // get first LatLong object
-		when(latLongs.getLatLong(1)).thenReturn(latLongList.get(1)); // get second LatLong object
-		when(latLongs.getLatLongCount()).thenReturn(latLongList.size()); // get the number of LatLong objects
-		when(latLongs.iterator()).thenReturn(latLongList.iterator()); // iterator for LatLong objects
+		// get nth LatLong object
+		when(latLongs.getLatLong(anyInt())).then(invocation -> latLongList.get(invocation.getArgument(0)));
+		// get the number of LatLong objects
+		when(latLongs.getLatLongCount()).then(invocation -> latLongList.size());
+		// iterator for LatLong objects
+		when(latLongs.iterator()).then(invocation -> latLongList.iterator());
 		controller.setLatLongs(latLongs);
 	}
 
@@ -74,10 +76,8 @@ public class FxAppTest extends ApplicationTest {
 	}
 
 	@Test
-	public void testlLocationListView() {
-		final Node locationListNode = lookup("#locationListView").query();
-		Assert.assertTrue(locationListNode instanceof ListView<?>);
-		final ListView<?> locationListView = (ListView<?>) locationListNode;
+	public void testLocationListView() {
+		final ListView<?> locationListView = lookup("#locationListView").query();
 		// list contains equals elements in same order
 		Assert.assertEquals(latLongList, locationListView.getItems());
 		// first list element is auto-selected
@@ -85,10 +85,8 @@ public class FxAppTest extends ApplicationTest {
 	}
 
 	@Test
-	public void testlMapView() {
-		final Node mapNode = lookup("#mapView").query();
-		Assert.assertTrue(mapNode instanceof MapBase);
-		final MapBase mapView = (MapBase) mapNode;
+	public void testMapView() {
+		final MapBase mapView = lookup("#mapView").query();
 		// center of map view is approx. the first LatLong object
 		final Location center = mapView.getCenter();
 		final double epsilon = 0.000001; // round-off error
@@ -96,28 +94,16 @@ public class FxAppTest extends ApplicationTest {
 		Assert.assertEquals(latLongList.get(0).longitude, center.getLongitude(), epsilon);
 	}
 
-	private boolean addLocationButtonTest(final Node node) {
-		return node instanceof Button && ((Button) node).getText().toLowerCase().startsWith("add loc");
-	}
-
 	@Test
-	public void testlAddLocation() {
-		final Node addLocNode = lookup(this::addLocationButtonTest).query();
-		Assert.assertTrue(addLocNode instanceof Button);
-		final Button addLocButton = (Button) addLocNode;
+	public void testAddLocation() {
 		// needs map center
-		final Node mapNode = lookup("#mapView").query();
-		Assert.assertTrue(mapNode instanceof MapBase);
-		final MapBase mapView = (MapBase) mapNode;
-		final Location center = mapView.getCenter();
+		final Location center = ((MapBase) lookup("#mapView").query()).getCenter();
 		// add behavior for add
 		final LatLong latLong = new LatLong(center.getLatitude(), center.getLongitude());
 		when(latLongs.addLatLong(latLong)).thenReturn(2); // add center
-		when(latLongs.getLatLong(2)).thenReturn(latLong); // get second LatLong object
-		when(latLongs.getLatLongCount()).thenReturn(3); // get the number of LatLong objects
-		final List<LatLong> newLatLongList = new ArrayList<>(latLongList);
-		newLatLongList.add(latLong);
-		when(latLongs.iterator()).thenReturn(newLatLongList.iterator()); // iterator for LatLong objects
+
+		// make test less sensitive to exact button text
+		final Button addLocButton = lookup(node -> node instanceof Button && ((Button) node).getText().toLowerCase().startsWith("add loc")).query();
 		clickOn(addLocButton);
 	}
 }

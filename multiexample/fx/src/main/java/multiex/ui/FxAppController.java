@@ -1,11 +1,14 @@
 package multiex.ui;
 
+import java.io.File;
+
 import fxmapcontrol.Location;
 import fxmapcontrol.MapBase;
 import fxmapcontrol.MapItemsControl;
 import fxmapcontrol.MapNode;
 import fxmapcontrol.MapProjection;
 import fxutil.doc.FileMenuController;
+import fxutil.doc.IDocumentListener;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.geometry.Point2D;
@@ -15,9 +18,14 @@ import javafx.scene.control.Slider;
 import multiex.core.LatLong;
 import multiex.core.LatLongs;
 
-public class FxAppController {
+public class FxAppController implements IDocumentListener<LatLongs, File> {
 
-	private final LatLongsStorage latLongsStorage = new LatLongsStorage();
+	private final LatLongsStorage latLongsStorage;
+
+	public FxAppController() {
+		latLongsStorage = new LatLongsStorage();
+		latLongsStorage.addDocumentStorageListener(this);
+	}
 
 	public LatLongs getLatLongs() {
 		return latLongsStorage.getDocument();
@@ -139,5 +147,16 @@ public class FxAppController {
 		if (selectedIndex >= 0 && selectedIndex < getLatLongs().getLatLongCount()) {
 			locationListView.getSelectionModel().select(selectedIndex);
 		}
+	}
+
+	// IDocumentListener
+
+	@Override
+	public void documentLocationChanged(final File documentLocation, final File oldDocumentLocation) {
+	}
+
+	@Override
+	public void documentChanged(final LatLongs document, final LatLongs oldDocument) {
+		updateLocationViewList(0);
 	}
 }
