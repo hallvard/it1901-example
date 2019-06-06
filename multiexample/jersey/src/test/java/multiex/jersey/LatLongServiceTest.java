@@ -22,6 +22,8 @@ import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import multiex.core.LatLong;
+import multiex.jaxrs.LatLongObjectMapperProvider;
+import multiex.jaxrs.LatLongService;
 
 public class LatLongServiceTest extends MultiExJerseyTest {
 

@@ -5,6 +5,8 @@ import org.glassfish.jersey.jackson.JacksonFeature;
 import org.glassfish.jersey.server.ResourceConfig;
 
 import multiex.core.LatLongs;
+import multiex.jaxrs.LatLongObjectMapperProvider;
+import multiex.jaxrs.LatLongService;
 
 public class LatLongConfig extends ResourceConfig {
 

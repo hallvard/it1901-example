@@ -1,4 +1,4 @@
-package multiex.jersey;
+package multiex.jaxrs;
 
 import java.util.List;
 
@@ -19,7 +19,7 @@ import multiex.core.LatLongs;
 @Path(LatLongService.LAT_LONG_SERVICE_PATH)
 public class LatLongService {
 
-	static final String LAT_LONG_SERVICE_PATH = "latLong";
+	public static final String LAT_LONG_SERVICE_PATH = "latLong";
 
 	@Inject
 	private LatLongs latLongs;
