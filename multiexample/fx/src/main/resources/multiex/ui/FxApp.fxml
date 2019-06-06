@@ -11,16 +11,19 @@
 <?import javafx.scene.control.Label?>
 <?import fxmapcontrol.MapTileLayer?>
 <?import fxmapcontrol.TileSource?>
+<?import javafx.scene.control.MenuBar?>
 
 <BorderPane xmlns:fx="http://javafx.com/fxml"
             fx:controller="multiex.ui.FxAppController"
             prefHeight="750" prefWidth="1000">
     <top>
-		<HBox>
-			<Label text="Source: "/>
-			<TextField promptText="Enter location source here"/>
-			<Button text="Load" onAction="#handleLoad"/>
-		</HBox>
+		<VBox>
+			<MenuBar >
+				<menus>
+					<fx:include fx:id="fileMenu" source="FileMenu.fxml"/>
+				</menus>
+			</MenuBar>
+		</VBox>
     </top>
     <left>
 		<VBox fillWidth="true">

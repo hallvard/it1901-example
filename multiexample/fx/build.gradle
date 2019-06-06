@@ -42,7 +42,7 @@ gluonClient {
     	'javafx.scene.layout.BorderPane', 'javafx.scene.layout.VBox', 'javafx.scene.layout.HBox',
     	'javafx.scene.control.ListView', 'javafx.scene.control.Slider',
     	'javafx.scene.control.Button', 'javafx.scene.control.TextField', 'javafx.scene.control.Label',
-    	'fxmapcontrol.MapTileLayer', 'fxmapcontrol.TileSource'
+    	'fxmapcontrol.MapBase', 'fxmapcontrol.MapTileLayer', 'fxmapcontrol.TileSource'
     ]
 //    jniList = []
 //    delayInitList = []
@@ -62,6 +62,10 @@ repositories{
 dependencies {
     implementation project(':core')
     compile 'fischer.clemens:FxMapControl:1.0'
+
+    implementation "com.fasterxml.jackson.core:jackson-core:${depVersions.jackson}"
+    compile "com.fasterxml.jackson.core:jackson-databind:${depVersions.jackson}"
+    implementation "com.fasterxml.jackson.core:jackson-annotations:${depVersions.jackson}"
 
     testImplementation 'junit:junit:4.12'
     testImplementation "org.testfx:testfx-core:$testfxVersion"
