@@ -38,11 +38,17 @@ gluonClient {
 //    bundlesList = []
 //    resourcesList = []
     reflectionList = [
-    	'javafx.fxml.FXMLLoader', 'multiex.ui.FxAppController',
+    	'javafx.fxml.FXMLLoader',
+    	// from FxApp.fxml
+    	'multiex.ui.FxAppController',
+    	'javafx.scene.control.MenuBar',
     	'javafx.scene.layout.BorderPane', 'javafx.scene.layout.VBox', 'javafx.scene.layout.HBox',
-    	'javafx.scene.control.ListView', 'javafx.scene.control.Slider',
     	'javafx.scene.control.Button', 'javafx.scene.control.TextField', 'javafx.scene.control.Label',
-    	'fxmapcontrol.MapBase', 'fxmapcontrol.MapTileLayer', 'fxmapcontrol.TileSource'
+    	'javafx.scene.control.ListView', 'javafx.scene.control.Slider',
+    	'fxmapcontrol.MapBase', 'fxmapcontrol.MapTileLayer', 'fxmapcontrol.TileSource',
+    	// from FileMenu.fxml
+    	'fxutil.doc.FileMenuController',
+    	'javafx.scene.control.Menu', 'javafx.scene.control.MenuItem', 'javafx.scene.control.SeparatorMenuItem',
     ]
 //    jniList = []
 //    delayInitList = []
