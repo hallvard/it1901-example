@@ -29,7 +29,7 @@
 				 -->
 					<Menu text="File">
 						<items>
-							<MenuItem text="New" 		onAction="#handleNewAction"/>
+							<MenuItem text="New" 	onAction="#handleNewAction"/>
 							<MenuItem text="Open..."  	onAction="#handleOpenAction"/>
 							<Menu fx:id="recentMenu" text="Open Recent"/>
 							<SeparatorMenuItem/>
