@@ -18,7 +18,7 @@ import javafx.scene.control.Slider;
 import multiex.core.LatLong;
 import multiex.core.LatLongs;
 
-public class FxAppController implements IDocumentListener<LatLongs, File> {
+public class FxAppController extends FileMenuController implements IDocumentListener<LatLongs, File> {
 
 	private final LatLongsStorage latLongsStorage;
 
@@ -37,8 +37,8 @@ public class FxAppController implements IDocumentListener<LatLongs, File> {
 		updateLocationViewList(0);
 	}
 
-	@FXML
-	private FileMenuController fileMenuController;
+	//	@FXML
+	//	private FileMenuController fileMenuController;
 
 	@FXML
 	private ListView<LatLong> locationListView;
@@ -56,7 +56,8 @@ public class FxAppController implements IDocumentListener<LatLongs, File> {
 
 	@FXML
 	private void initialize() {
-		fileMenuController.setDocumentStorage(latLongsStorage);
+		//		fileMenuController.
+		setDocumentStorage(latLongsStorage);
 		// map stuff
 		// mapView.getChildren().add(MapTileLayer.getOpenStreetMapLayer());
 		zoomSlider.valueProperty().addListener((prop, oldValue, newValue) -> mapView.setZoomLevel(zoomSlider.getValue()));
